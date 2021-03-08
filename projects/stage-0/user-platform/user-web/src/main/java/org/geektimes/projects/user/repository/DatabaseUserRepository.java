@@ -1,10 +1,14 @@
 package org.geektimes.projects.user.repository;
 
+import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.geektimes.function.ThrowableFunction;
 import org.geektimes.context.ComponentContext;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.sql.DBConnectionManager;
 
+import javax.annotation.Resource;
+import javax.persistence.*;
+import javax.sql.DataSource;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -18,8 +22,14 @@ import java.util.logging.Logger;
 import static org.apache.commons.lang.ClassUtils.wrapperToPrimitive;
 
 public class DatabaseUserRepository implements UserRepository {
+private static Logger logger = Logger.getLogger(DatabaseUserRepository.class.getName());
 
-    private static Logger logger = Logger.getLogger(DatabaseUserRepository.class.getName());
+
+    @PersistenceContext(name = "emf")
+    private EntityManager entityManager;
+
+//    @Resource(name = "primaryDataSource")
+//    private DataSource dataSource;
 
     /**
      * 通用处理方式
@@ -44,7 +54,33 @@ public class DatabaseUserRepository implements UserRepository {
 
     @Override
     public boolean save(User user) {
-        return false;
+        try {
+            EntityManagerFactory entityManagerFactory =
+                    Persistence.createEntityManagerFactory("emf", getProperties());
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            EntityTransaction transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.persist(user);
+            transaction.commit();
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    private static Map<String, Object> getProperties() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.dialect", "org.hibernate.dialect.DerbyDialect");
+        properties.put("hibernate.id.new_generator_mappings", false);
+        properties.put("hibernate.connection.datasource", getDataSource());
+        return properties;
+    }
+
+    private static DataSource getDataSource() {
+        EmbeddedDataSource dataSource = new EmbeddedDataSource();
+        dataSource.setDatabaseName("/db/user-platform");
+        dataSource.setCreateDatabase("create");
+        return dataSource;
     }
 
     @Override
