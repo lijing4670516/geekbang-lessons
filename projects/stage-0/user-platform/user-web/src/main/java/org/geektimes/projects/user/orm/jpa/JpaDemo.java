@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class JpaDemo {
 
-//    @Resource
-//    private EntityManager entityManager;
+    @Resource
+    private EntityManager entityManager;
 
 //    @PersistenceContext(name = "emf")
 //    private EntityManager entityManager;
@@ -50,7 +50,7 @@ public class JpaDemo {
 
     private static DataSource getDataSource() {
         EmbeddedDataSource dataSource = new EmbeddedDataSource();
-        dataSource.setDatabaseName("/db/user-platform");
+        dataSource.setDatabaseName("db/user-platform");
         dataSource.setCreateDatabase("create");
         return dataSource;
     }

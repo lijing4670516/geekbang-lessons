@@ -1,6 +1,7 @@
 package org.geektimes.projects.user.web.listener;
 
 import org.geektimes.context.ComponentContext;
+import org.geektimes.web.mvc.controller.Controller;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -19,6 +20,9 @@ public class ComponentContextInitializerListener implements ServletContextListen
         this.servletContext = sce.getServletContext();
         ComponentContext context = new ComponentContext();
         context.init(servletContext);
+        Controller component = context.getComponent("bean/UserController");
+
+
     }
 
     @Override

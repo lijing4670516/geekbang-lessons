@@ -1,6 +1,8 @@
-package org.geektimes.web.mvc;
+package org.geektimes.servlet;
 
 import org.apache.commons.lang.StringUtils;
+import org.geektimes.context.ComponentContext;
+import org.geektimes.web.mvc.HandlerMethodInfo;
 import org.geektimes.web.mvc.controller.Controller;
 import org.geektimes.web.mvc.controller.PageController;
 import org.geektimes.web.mvc.controller.RestController;
@@ -39,13 +41,21 @@ public class FrontControllerServlet extends HttpServlet {
      */
     private Map<String, HandlerMethodInfo> handleMethodInfoMapping = new HashMap<>();
 
+    private List<Controller> controllers = new ArrayList<>();
+
     /**
      * 初始化 Servlet
      *
      * @param servletConfig
      */
     public void init(ServletConfig servletConfig) {
+        loadController();
         initHandleMethods();
+    }
+
+    private void loadController(){
+        Controller component = ComponentContext.getInstance().getComponent("bean/UserController");
+        controllers.add(component);
     }
 
     /**
@@ -53,7 +63,7 @@ public class FrontControllerServlet extends HttpServlet {
      * 利用 ServiceLoader 技术（Java SPI）
      */
     private void initHandleMethods() {
-        for (Controller controller : ServiceLoader.load(Controller.class)) {
+        for (Controller controller : controllers) {
             Class<?> controllerClass = controller.getClass();
             Path pathFromClass = controllerClass.getAnnotation(Path.class);
             String requestPath = pathFromClass.value();
