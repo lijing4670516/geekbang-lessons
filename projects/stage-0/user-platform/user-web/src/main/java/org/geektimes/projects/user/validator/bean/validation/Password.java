@@ -7,9 +7,9 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PhoneValid.class)
-public @interface Phone {
-    String message() default "手机号校验失败";
+@Constraint(validatedBy = PasswordValid.class)
+public @interface Password {
+    String message() default "密码校验失败";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 }

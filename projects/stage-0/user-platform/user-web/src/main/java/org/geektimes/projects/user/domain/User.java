@@ -1,8 +1,14 @@
 package org.geektimes.projects.user.domain;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.geektimes.projects.user.validator.bean.validation.Password;
+import org.geektimes.projects.user.validator.bean.validation.Phone;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -26,8 +32,7 @@ public class User implements Serializable {
     private String name;
 
     @Column
-//    @Max(32)
-//    @Min(6)
+    @Password
     private String password;
 
     @Column
@@ -35,6 +40,7 @@ public class User implements Serializable {
     private String email;
 
     @Column
+    @Phone
     private String phoneNumber;
 
     public Long getId() {
@@ -76,6 +82,12 @@ public class User implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public void GenerateId(){
+        this.id = Long.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + RandomStringUtils.random(8, "1234567890"));
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
