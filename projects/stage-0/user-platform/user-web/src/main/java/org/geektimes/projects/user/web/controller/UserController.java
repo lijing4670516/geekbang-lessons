@@ -41,8 +41,6 @@ public class UserController implements PageController {
     @POST
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         User user = parsingRequest(request, User.class);
-        // 生成ID
-//        user.GenerateId();
         if (!checkParam(user)) {
             return "fail.jsp";
         }

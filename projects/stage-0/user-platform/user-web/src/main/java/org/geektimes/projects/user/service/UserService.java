@@ -14,7 +14,7 @@ public interface UserService {
      * @param user 用户对象
      * @return 成功返回<code>true</code>
      */
-    @LocalTransactional
+//    @LocalTransactional
     boolean register(User user);
 
     /**
