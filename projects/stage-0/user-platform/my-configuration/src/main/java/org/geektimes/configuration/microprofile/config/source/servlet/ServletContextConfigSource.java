@@ -10,7 +10,7 @@ public class ServletContextConfigSource extends MapBasedConfigSource {
 
     private final ServletContext servletContext;
 
-    public ServletContextConfigSource(ServletContext servletContext) {
+    public  ServletContextConfigSource(ServletContext servletContext) {
         super("ServletContext Init Parameters", 500);
         this.servletContext = servletContext;
     }

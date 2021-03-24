@@ -16,12 +16,12 @@ public abstract class MapBasedConfigSource implements ConfigSource {
 
     private final int ordinal;
 
-    private final Map<String, String> source;
+    private Map<String, String> source;
 
     protected MapBasedConfigSource(String name, int ordinal) {
         this.name = name;
         this.ordinal = ordinal;
-        this.source = getProperties();
+//        this.source = getProperties();
     }
 
     /**
@@ -36,6 +36,7 @@ public abstract class MapBasedConfigSource implements ConfigSource {
         } catch (Throwable cause) {
             throw new IllegalStateException("准备配置数据发生错误",cause);
         }
+        this.source = configData;
         return Collections.unmodifiableMap(configData);
     }
 

@@ -1,7 +1,7 @@
 package org.geektimes.context;
 
-import org.geektimes.function.ThrowableAction;
-import org.geektimes.function.ThrowableFunction;
+import org.geektimes.function.function.ThrowableAction;
+import org.geektimes.function.function.ThrowableFunction;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
